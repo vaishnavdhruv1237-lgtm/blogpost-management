@@ -70,7 +70,7 @@ const Login = () => {
 
   return (
     <div className="form-container">
-     <h1 className="form-title">WELCOME BACK</h1>
+      <h1 className="form-title">WELCOME BACK</h1>
       <h5>Sign in to your account</h5>
 
       <form onSubmit={handleSubmit}>

@@ -8,10 +8,8 @@ const AuthGuard = ({ children, required }) => {
     const loginData = JSON.parse(localStorage.getItem("loginData"));
 
     if (required && !loginData) {
-     
       navigate("/login");
     } else if (!required && loginData) {
-     
       navigate("/dashboard");
     }
   }, [navigate, required]);
