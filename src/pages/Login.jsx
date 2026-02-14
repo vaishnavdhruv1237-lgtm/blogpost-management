@@ -53,17 +53,23 @@ const Login = () => {
     e.preventDefault();
 
     if (validate()) {
-      const user = JSON.parse(localStorage.getItem("authData"));
-      if (
-        user &&
-        loginData.email === user.email &&
-        loginData.password === user.password
-      ) {
+      // Get all users from localStorage
+      const users = JSON.parse(localStorage.getItem("authData")) || [];
+
+      // Find user with matching email and password
+      const authenticatedUser = users.find(
+        (user) =>
+          user.email === loginData.email &&
+          user.password === loginData.password,
+      );
+
+      if (authenticatedUser) {
+        // Store current login session data
         localStorage.setItem("loginData", JSON.stringify(loginData));
-        navigate("/Dashboard");
         toast.success("Login successfully");
+        navigate("/Dashboard");
       } else {
-        toast.error("invalid email or password");
+        toast.error("Invalid email or password");
       }
     }
   };

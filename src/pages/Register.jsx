@@ -73,11 +73,32 @@ const Register = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const checkIfUserExists = (email) => {
+    const existingUsers = JSON.parse(localStorage.getItem("authData")) || [];
+    return existingUsers.some((user) => user.email === email);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      // Check if user already exists
+      if (checkIfUserExists(formData.email)) {
+        toast.error("User with this email already exists!");
+        return;
+      }
+
+      // Get existing users or initialize empty array
+      const existingUsers = JSON.parse(localStorage.getItem("authData")) || [];
+
+      // Remove confirmPassword from user data
       const { confirmPassword, ...userData } = formData;
-      localStorage.setItem("authData", JSON.stringify(userData));
+
+      // Add new user to the array
+      const updatedUsers = [...existingUsers, userData];
+
+      // Save updated users array to localStorage
+      localStorage.setItem("authData", JSON.stringify(updatedUsers));
+
       toast.success("Registration successfully...!");
       navigate("/Login");
     }
