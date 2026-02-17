@@ -1,17 +1,20 @@
-import { FaBlog, FaHome, FaPlusSquare, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaBlog,
+  FaChartBar,
+  FaHome,
+  FaPlusSquare,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = ({ onLogout }) => {
   const navigate = useNavigate();
 
-  // Get current logged in user from loginData instead
   const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
 
-  // Get all users from authData
   const allUsers = JSON.parse(localStorage.getItem("authData") || "[]");
 
-  // Find the current logged in user by email
   const currentUser = allUsers.find((user) => user.email === loginData.email);
   const userName = currentUser?.username || "User";
 
@@ -37,7 +40,6 @@ const Navbar = ({ onLogout }) => {
           >
             <FaHome className="nav-icon" /> Home
           </NavLink>
-
           <NavLink
             to="/create-post"
             className={({ isActive }) =>
@@ -46,6 +48,15 @@ const Navbar = ({ onLogout }) => {
             onClick={handleCreatePostClick}
           >
             <FaPlusSquare className="nav-icon" /> Create Post
+          </NavLink>
+
+          <NavLink
+            to="/analytics"
+            className={({ isActive }) =>
+              isActive ? "navbar-item active" : "navbar-item"
+            }
+          >
+            <FaChartBar className="nav-icon" /> Analytics
           </NavLink>
         </div>
 

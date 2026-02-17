@@ -11,18 +11,18 @@ const Dashboard = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleCreatePostClick = (e) => {
-    e.preventDefault();
+  const handleCreatePostClick = () => {
     navigate("/create-post");
   };
 
-  const handleEditPost = (postId) => {
-    navigate(`/edit-post/${postId}`, {
-      state: { postId, isEditing: true },
-    });
+  const handleEditPost = (post) => {
+    navigate(`/edit-post/${post.id}`);
   };
 
-  // Fetch all posts from db.json
+  const handleReadMore = (post) => {
+    navigate(`/post/${post.id}`);
+  };
+
   const fetchPosts = async () => {
     try {
       setLoading(true);
@@ -47,51 +47,38 @@ const Dashboard = () => {
     navigate("/login");
   };
 
-  // Delete post
   const handleDeletePost = async (id) => {
-    try {
-      await fetch(`http://localhost:3000/posts/${id}`, {
-        method: "DELETE",
-      });
-      setPosts(posts.filter((post) => post.id !== id));
-      toast.success("Post deleted successfully");
-    } catch (error) {
-      console.error("Error deleting post:", error);
-      toast.error("Failed to delete post");
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      try {
+        await fetch(`http://localhost:3000/posts/${id}`, {
+          method: "DELETE",
+        });
+        setPosts(posts.filter((post) => post.id !== id));
+        toast.success("Post deleted successfully");
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        toast.error("Failed to delete post");
+      }
     }
   };
 
-  // Get current user from localStorage - FIXED: Check both loginData and authData
   const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
-  const authData = JSON.parse(localStorage.getItem("authData") || "{}");
+  const authData = JSON.parse(localStorage.getItem("authData") || "[]");
 
-  // Get username from multiple possible sources
   let currentUser = "";
 
-  if (authData?.username) {
-    currentUser = authData.username;
-  } else if (loginData?.email) {
-    currentUser = loginData.email.split("@")[0];
-  } else if (loginData?.username) {
-    currentUser = loginData.username;
+  if (loginData?.email) {
+    const foundUser = authData.find((user) => user.email === loginData.email);
+    currentUser = foundUser?.username || loginData.email.split("@")[0];
   }
 
-  console.log("Current user:", currentUser); // For debugging
-  console.log("Posts:", posts); // For debugging
-
-  // Calculate stats - FIXED: Better matching logic
   const totalPosts = posts.length;
-
   const userPosts = posts.filter((post) => {
     if (!currentUser) return false;
-
     const postAuthor = (post.author || "").toLowerCase().trim();
     const currentUserLower = currentUser.toLowerCase().trim();
-
-    // Check if post author matches current user
     return postAuthor === currentUserLower;
   }).length;
-
   const communityPosts = totalPosts - userPosts;
 
   return (
@@ -101,7 +88,7 @@ const Dashboard = () => {
       <main className="dashboard-main">
         <div className="dashboard-welcome">
           <div className="welcome-text">
-            <h1>Welcome to Your Dashboard.</h1>
+            <h1>Welcome to Your Dashboard!</h1>
             <p>
               Manage your posts, track engagement, and connect with your
               audience.
@@ -114,12 +101,10 @@ const Dashboard = () => {
             <h3>Total Posts</h3>
             <span className="dash-number">{totalPosts}</span>
           </div>
-
           <div className="dash-card">
             <h3>Your Stories</h3>
             <span className="dash-number">{userPosts}</span>
           </div>
-
           <div className="dash-card">
             <h3>Community Posts</h3>
             <span className="dash-number">{communityPosts}</span>
@@ -139,7 +124,7 @@ const Dashboard = () => {
 
           <div className="posts-grid">
             {loading ? (
-              <div className="loading-state">Loading posts...</div>
+              <div className="loading-spinner">Loading posts...</div>
             ) : posts.length > 0 ? (
               posts.map((post) => (
                 <div className="post-card" key={post.id}>
@@ -149,16 +134,14 @@ const Dashboard = () => {
                       alt={post.title}
                       className="post-card-image"
                     />
-
                     <div className="post-actions">
                       <button
                         className="action-btn edit-btn"
                         title="Edit Post"
-                        onClick={() => handleEditPost(post.id)}
+                        onClick={() => handleEditPost(post)}
                       >
                         <MdEdit size={22} color="#ffffff" />
                       </button>
-
                       <button
                         className="action-btn delete-btn"
                         title="Delete Post"
@@ -168,7 +151,6 @@ const Dashboard = () => {
                       </button>
                     </div>
                   </div>
-
                   <div className="post-card-content">
                     <div className="post-meta">
                       <span className="post-author">
@@ -181,12 +163,14 @@ const Dashboard = () => {
                           ).toLocaleDateString()}
                       </span>
                     </div>
-
                     <h3 className="post-card-title">{post.title}</h3>
-                    <p className="post-card-description">
-                      {post.description || post.content || post.excerpt}
-                    </p>
-                    <button className="read-more-btn">Read More</button>
+                    <p className="post-card-description">{post.description}</p>
+                    <button
+                      className="read-more-btn"
+                      onClick={() => handleReadMore(post)}
+                    >
+                      Read More
+                    </button>
                   </div>
                 </div>
               ))
