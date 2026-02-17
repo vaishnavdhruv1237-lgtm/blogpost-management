@@ -1,6 +1,7 @@
 .post-details-page {
   min-height: 100vh;
-  background-color: #f9fafb;
+  background-color: var(--body-bg, #f9fafb);
+  transition: background-color 0.3s ease;
 }
 
 .post-details-main {
@@ -15,7 +16,7 @@
   gap: 0.5rem;
   background: none;
   border: none;
-  color: #4b5563;
+  color: var(--text-color, #4b5563);
   font-size: 1rem;
   cursor: pointer;
   padding: 0.5rem 0;
@@ -28,28 +29,32 @@
 }
 
 .full-post {
-  background: white;
+  background: var(--card-bg, white);
   border-radius: 1rem;
   padding: 2.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color, transparent);
 }
 
 .post-category {
   display: inline-block;
-  background: #e5e7eb;
+  background: var(--hover-bg, #e5e7eb);
   padding: 0.25rem 1rem;
   border-radius: 9999px;
   font-size: 0.875rem;
-  color: #4b5563;
+  color: var(--text-color, #4b5563);
   margin-bottom: 1rem;
+  transition: all 0.3s ease;
 }
 
 .post-full-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-dark, #111827);
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  transition: color 0.3s ease;
 }
 
 .post-author-meta {
@@ -77,17 +82,19 @@
 
 .author-name {
   font-weight: 600;
-  color: #111827;
+  color: var(--text-dark, #111827);
   font-size: 1.125rem;
+  transition: color 0.3s ease;
 }
 
 .post-date-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #6b7280;
+  color: var(--text-color, #6b7280);
   font-size: 0.875rem;
   margin-top: 0.25rem;
+  transition: color 0.3s ease;
 }
 
 .post-date-row svg {
@@ -97,8 +104,9 @@
 .dot {
   width: 4px;
   height: 4px;
-  background: #9ca3af;
+  background: var(--text-color, #9ca3af);
   border-radius: 50%;
+  transition: background-color 0.3s ease;
 }
 
 .post-featured-image {
@@ -116,8 +124,9 @@
 .post-body {
   font-size: 1.125rem;
   line-height: 1.8;
-  color: #1f2937;
+  color: var(--text-dark, #1f2937);
   margin-bottom: 2rem;
+  transition: color 0.3s ease;
 }
 
 .post-body p {
@@ -125,9 +134,10 @@
 }
 
 .post-footer {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--border-color, #e5e7eb);
   padding-top: 2rem;
   margin-top: 2rem;
+  transition: border-color 0.3s ease;
 }
 
 .post-share {
@@ -139,8 +149,9 @@
 }
 
 .post-share span {
-  color: #4b5563;
+  color: var(--text-color, #4b5563);
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .share-buttons {
@@ -149,27 +160,28 @@
 }
 
 .share-btn {
-  background: #f3f4f6;
+  background: var(--hover-bg, #f3f4f6);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  color: #374151;
+  color: var(--text-color, #374151);
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .share-btn:hover {
-  background: #e5e7eb;
-  color: #111827;
+  background: var(--hover-bg, #e5e7eb);
+  color: var(--text-dark, #111827);
 }
 
 .loading-spinner,
 .error-message {
   text-align: center;
   padding: 3rem;
-  color: #6b7280;
+  color: var(--text-color, #6b7280);
   font-size: 1.125rem;
+  transition: color 0.3s ease;
 }
 
 .error-message {

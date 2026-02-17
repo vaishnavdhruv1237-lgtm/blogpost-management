@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaArrowLeft, FaUser, FaCalendarAlt, FaClock } from "react-icons/fa";
+import { FaArrowLeft, FaCalendarAlt, FaClock } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
