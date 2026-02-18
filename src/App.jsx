@@ -68,6 +68,14 @@ function App() {
       ),
     },
     {
+      path: "/post-details",
+      element: (
+        <AuthGuard required={true}>
+          <PostDetails />
+        </AuthGuard>
+      ),
+    },
+    {
       path: "/edit-post/:id",
       element: (
         <AuthGuard required={true}>
