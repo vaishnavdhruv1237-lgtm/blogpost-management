@@ -13,7 +13,9 @@ const Favorites = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const savedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]",
+    );
     setFavorites(savedFavorites);
     fetchPosts();
   }, []);
@@ -35,17 +37,19 @@ const Favorites = () => {
   };
 
   const removeFavorite = (postId) => {
-    const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const newFavorites = currentFavorites.filter(id => id !== postId);
+    const currentFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]",
+    );
+    const newFavorites = currentFavorites.filter((id) => id !== postId);
 
-    localStorage.setItem('favorites', JSON.stringify(newFavorites));
+    localStorage.setItem("favorites", JSON.stringify(newFavorites));
     setFavorites(newFavorites);
     toast.info("Removed from collection");
   };
 
   const clearAllFavorites = () => {
     if (window.confirm("Clear all your saved posts?")) {
-      localStorage.setItem('favorites', '[]');
+      localStorage.setItem("favorites", "[]");
       setFavorites([]);
       toast.info("Collection cleared");
     }
@@ -56,10 +60,10 @@ const Favorites = () => {
   };
 
   const handleExploreStories = () => {
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
-  const favoritePosts = posts.filter(post => favorites.includes(post.id));
+  const favoritePosts = posts.filter((post) => favorites.includes(post.id));
 
   return (
     <div className="favorites-page-container">
@@ -106,12 +110,12 @@ const Favorites = () => {
               {favoritePosts.map((post) => (
                 <div className="fav-card" key={post.id}>
                   <div className="fav-card-image">
-                    <img 
-                      src={post.image || 'https://via.placeholder.com/300x200'} 
-                      alt={post.title} 
+                    <img
+                      src={post.image || "https://via.placeholder.com/300x200"}
+                      alt={post.title}
                     />
                     <div className="fav-card-overlay">
-                      <button 
+                      <button
                         className="read-btn"
                         onClick={() => handleReadArticle(post)}
                       >
@@ -126,15 +130,17 @@ const Favorites = () => {
                         By {post.author || "Anonymous"}
                       </span>
                       <span className="fav-date">
-                        {post.date || 
-                          new Date(post.createdAt || Date.now()).toLocaleDateString()}
+                        {post.date ||
+                          new Date(
+                            post.createdAt || Date.now(),
+                          ).toLocaleDateString()}
                       </span>
                     </div>
 
                     <h3 className="fav-title">{post.title}</h3>
                     <p className="fav-excerpt">{post.description}</p>
-                    
-                    <button 
+
+                    <button
                       className="remove-fav-btn"
                       onClick={() => removeFavorite(post.id)}
                     >
